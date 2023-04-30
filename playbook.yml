@@ -1,0 +1,24 @@
+---
+- hosts: client
+  become: true
+
+  tasks:
+    - name: Copy CheckMK package to target server
+      copy:
+        src: /home/roshankeram1/check-mk-free-2.1.0p26-el7-38.x86_64.rpm
+        dest: /tmp/check-mk-free-2.1.0p26-el7-38.x86_64.rpm
+
+    - name: Install CheckMK package
+      yum:
+        name: /tmp/check-mk-free-2.1.0p26-el7-38.x86_64.rpm
+        state: present
+
+    - name: Install xinetd package
+      yum:
+        name: xinetd
+        state: present
+
+    - name: Start xinetd service
+      service:
+        name: xinetd
+        state: started
